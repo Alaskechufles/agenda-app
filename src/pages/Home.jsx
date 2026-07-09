@@ -8,23 +8,26 @@ function Home() {
   useEffect(() => {
     async function traerServicios() {
       try {
-        let { data } = await supabase
-          .from("servicios")
-          .select("*");
-        console.log(data)
+        let { data } = await supabase.from("servicios").select("nombre,precio");
         setServicios(data);
       } catch (error) {
         console.error(error);
       }
     }
-    traerServicios()
+    traerServicios();
   }, []);
 
   return (
-  <div>
-    {console.log(servicios)}
-    <h1>Home</h1>
-</div>);
+    <div>
+      
+      <h1>Home</h1>
+      <section>
+        {servicios.map((servicio, index)=>(
+          <p key={index}>{servicio.nombre}</p>
+        ))}
+      </section>
+    </div>
+  );
 }
 
 export default Home;
