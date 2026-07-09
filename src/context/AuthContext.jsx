@@ -13,8 +13,8 @@ function AuthProvider({ children }) {
   useEffect(() => {
     async function verificarSesion() {
       const { data, error } = await supabase.auth.getSession();
-      setSession(data);
       setLoading(false);
+      setSession(data.session);
       if (error) {
         console.error("Problemas con identificar la sesión");
       } else {
@@ -37,6 +37,9 @@ function AuthProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    if (!session) {
+      return
+    }
     async function traerPerfil() {
       try {
         const { data, error } = await supabase
